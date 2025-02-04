@@ -60,9 +60,7 @@ export default function App() {
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider>
-          <div className="relative bg-[url('/background.png')] bg-cover bg-center bg-no-repeat h-screen w-full overflow-y-scroll">
-            <Layout />
-          </div>
+          <Layout />
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>

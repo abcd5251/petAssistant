@@ -7,10 +7,12 @@ import DefiScreen from "../DefiScreen";
 export default function Layout() {
   const { address } = useAccount();
 
-  if (address) {
-    return <DefiScreen />;
-  } else {
-    // wallet not connected.
-    return <WelcomeScreen />;
-  }
+  return <DefiScreen />;
+
+  //   if (address) {
+  //     return <DefiScreen />;
+  //   } else {
+  //     // wallet not connected.
+  //     return <WelcomeScreen />;
+  //   }
 }
