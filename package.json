@@ -4,6 +4,8 @@
   "private": true,
   "type": "module",
   "dependencies": {
+    "@headlessui/react": "^2.2.0",
+    "@heroicons/react": "^2.2.0",
     "@rainbow-me/rainbowkit": "2.0.1",
     "@tailwindcss/vite": "^4.0.3",
     "@tanstack/react-query": "^5.24.7",
