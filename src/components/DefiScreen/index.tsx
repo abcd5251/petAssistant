@@ -30,9 +30,9 @@ export default function DefiScreen() {
               </div>
               <div
                 style={{
-                  textShadow: " -2px 2px 0px #000000",
+                  textShadow: " -1.5px 1px 0px #000000",
                   WebkitTextFillColor: "white",
-                  WebkitTextStroke: "1.5px black",
+                  WebkitTextStroke: "1.2px black",
                 }}
                 className="bg-[#82D724] text-white pl-3"
               >
@@ -53,9 +53,9 @@ export default function DefiScreen() {
               </div>
               <div
                 style={{
-                  textShadow: " -2px 2px 0px #000000",
+                  textShadow: " -1.5px 1px 0px #000000",
                   WebkitTextFillColor: "white",
-                  WebkitTextStroke: "1.5px black",
+                  WebkitTextStroke: "1.2px black",
                 }}
                 className="bg-[#9C3EF4] text-white pl-3"
               >
@@ -76,9 +76,9 @@ export default function DefiScreen() {
               </div>
               <div
                 style={{
-                  textShadow: " -2px 2px 0px #000000",
+                  textShadow: " -1.5px 1px 0px #000000",
                   WebkitTextFillColor: "white",
-                  WebkitTextStroke: "1.5px black",
+                  WebkitTextStroke: "1.2px black",
                 }}
                 className="bg-[#E53B52] text-white pl-3"
               >

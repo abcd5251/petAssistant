@@ -17,6 +17,10 @@
   transform: skew(8deg);
 }
 
+.parallelogram p {
+  transform: skew(8deg);
+}
+
 * {
   font-family: "Lilita One", cursive;
 }
