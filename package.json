@@ -2,8 +2,10 @@
   "name": "rainbowkit-no-modal-example",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@rainbow-me/rainbowkit": "2.0.1",
+    "@tailwindcss/vite": "^4.0.3",
     "@tanstack/react-query": "^5.24.7",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
@@ -28,9 +30,12 @@
     "terser": "^5.31.0"
   },
   "devDependencies": {
+    "autoprefixer": "^10.4.20",
     "buffer": "^6.0.3",
     "empty-module": "^0.0.2",
-    "process": "^0.11.10"
+    "postcss": "^8.5.1",
+    "process": "^0.11.10",
+    "tailwindcss": "^4.0.3"
   },
   "scripts": {
     "start": "vite",
