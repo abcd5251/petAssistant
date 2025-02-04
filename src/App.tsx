@@ -10,7 +10,7 @@ import { rainbowWeb3AuthConnector } from "./RainbowWeb3authConnector";
 import { rainbowWallet, metaMaskWallet } from "@rainbow-me/rainbowkit/wallets";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { sepolia, mainnet, arbitrum, base } from "wagmi/chains";
-import WelcomeScreen from "./components/WelcomeScreen";
+import Layout from "./components/Layout";
 
 const config = getDefaultConfig({
   appName: "My RainbowKit App",
@@ -61,7 +61,7 @@ export default function App() {
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider>
           <div className="relative bg-[url('/background.png')] bg-cover bg-center bg-no-repeat h-screen w-full overflow-y-scroll">
-            <WelcomeScreen />
+            <Layout />
           </div>
         </RainbowKitProvider>
       </QueryClientProvider>
