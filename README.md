@@ -1,2 +1,2 @@
-# Pet Assistant
-Your best AI assistant to help you with onchain interactions.
+# OneVault
+Your best AI pilot to help you navigate OnChain protocol
