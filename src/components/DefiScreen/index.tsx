@@ -1,7 +1,15 @@
+import CustomRainbowKitConnectButton from "../CustomConnectButton";
+
 export default function DefiScreen() {
   return (
     <div className="relative bg-[url('/defi-background.png')] bg-cover bg-center bg-no-repeat h-screen w-full overflow-y-scroll">
       {/* HEADER */}
+      <div className="absolute top-0 w-full flex z-50">
+        <img src="stat-titles.png" className="object-contain w-96 h-auto" />
+        <div className="ml-auto mr-3 mt-3">
+          <CustomRainbowKitConnectButton />
+        </div>
+      </div>
       {/* CONTENT */}
       <div className="relative flex items-center justify-center h-full flex-col">
         <div

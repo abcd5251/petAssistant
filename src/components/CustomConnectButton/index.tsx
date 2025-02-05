@@ -1,4 +1,5 @@
 "use client";
+import { WalletIcon } from "@heroicons/react/24/outline";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 export default function CustomRainbowKitConnectButton() {
@@ -60,14 +61,22 @@ export default function CustomRainbowKitConnectButton() {
                     type="button"
                   ></button>
                   <button
-                    className="bg-transparent border border-solid border-primary rounded-md px-3 py-1"
+                    className="rounded-sm cursor-pointer flex items-center text-2xl bg-background-gray text-white parallelogram border border-solid border-black uppercase px-4 py-3 shadow-[0_4px_0_0_rgba(0,0,0,1)]"
                     onClick={openAccountModal}
                     type="button"
+                    style={{
+                      textShadow: "-1px 2px 0px #000000",
+                      WebkitTextFillColor: "white",
+                      WebkitTextStroke: "1px black",
+                    }}
                   >
-                    {account.displayName}
-                    {account.displayBalance
-                      ? ` (${account.displayBalance})`
-                      : ""}
+                    <WalletIcon className="size-6 mr-2" />
+                    <span>
+                      {" "}
+                      {account.address.slice(0, 6) +
+                        "..." +
+                        account.address.slice(-4)}
+                    </span>
                   </button>
                 </div>
               );
