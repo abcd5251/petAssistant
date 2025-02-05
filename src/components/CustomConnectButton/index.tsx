@@ -56,10 +56,19 @@ export default function CustomRainbowKitConnectButton() {
               return (
                 <div className="ml-6" style={{ display: "flex" }}>
                   <button
+                    className="cursor-pointer flex items-center text-2xl bg-background-gray text-white parallelogram border border-solid border-black uppercase px-4 py-3 shadow-[0_4px_0_0_rgba(0,0,0,1)]"
                     onClick={openChainModal}
                     style={{ display: "flex", alignItems: "center" }}
                     type="button"
-                  ></button>
+                  >
+                    {chain.iconUrl && (
+                      <img
+                        alt={chain.name}
+                        src={chain.iconUrl}
+                        className="size-6"
+                      />
+                    )}
+                  </button>
                   <button
                     className="rounded-sm cursor-pointer flex items-center text-2xl bg-background-gray text-white parallelogram border border-solid border-black uppercase px-4 py-3 shadow-[0_4px_0_0_rgba(0,0,0,1)]"
                     onClick={openAccountModal}
