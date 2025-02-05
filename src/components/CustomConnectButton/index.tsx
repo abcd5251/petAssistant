@@ -61,12 +61,14 @@ export default function CustomRainbowKitConnectButton() {
                     style={{ display: "flex", alignItems: "center" }}
                     type="button"
                   >
-                    {chain.iconUrl && (
+                    {chain.iconUrl ? (
                       <img
                         alt={chain.name}
                         src={chain.iconUrl}
                         className="size-6"
                       />
+                    ) : (
+                      <span>{chain.name}</span>
                     )}
                   </button>
                   <button
