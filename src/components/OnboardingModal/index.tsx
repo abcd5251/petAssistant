@@ -32,6 +32,13 @@ export default function OnboardingModal({
   const { address } = useAccount();
   const { control, handleSubmit } = useForm<DepositFormData>();
 
+  function onSubmit(data: DepositFormData) {
+    // TODO: trigger contract function to deposit
+    console.log("Form submitted with values:", data);
+    setIsDeposited(true);
+    setOpenModal(false);
+  }
+
   return (
     <Dialog
       open={openModal}
@@ -47,7 +54,7 @@ export default function OnboardingModal({
         <div className="flex sm:min-h-full justify-center p-4 text-center sm:items-center sm:p-0 overflow-visible">
           <DialogPanel
             transition
-            className="sm:min-w-[45vw] relative transform overflow-visible bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95"
+            className="sm:min-w-[55vw] relative transform overflow-visible bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95"
           >
             <div className="bg-background-light-blue text-center relative py-2 overflow-visible">
               <DialogTitle
@@ -66,25 +73,29 @@ export default function OnboardingModal({
                 <button
                   type="button"
                   onClick={() => setOpenModal(false)}
-                  className="rounded-md z-50 parallelogram bg-red-700 p-1 text-white hover:bg-red-800 transition-colors"
+                  className="border border-black z-50 parallelogram bg-red-700 px-3 py-1 text-white hover:bg-red-800 transition-colors shadow-[0_4px_0_0_rgba(0,0,0,1)]"
                 >
                   <span className="sr-only">Close</span>
-                  <XMarkIcon aria-hidden="true" className="size-5" />
+                  <img
+                    src="/icon-cancel.png"
+                    className="w-5 h-5 object-contain"
+                  />
                 </button>
               </div>
             </div>
 
             <div className="bg-background-blue min-h-[85vh] sm:min-h-[45vh] pb-10 pt-3 overflow-visible flex flex-col">
               <div className="flex flex-col sm:flex-row flex-1">
-                <div className="flex items-center justify-center sm:mr-5">
+                <div className="flex items-center justify-center sm:mx-5">
                   <img
-                    src="/victory.png"
-                    className="w-56 h-40 object-contain"
+                    src="/deposit-logo.png"
+                    className="w-56 h-56 object-contain"
                   />
                 </div>
-                <div className="px-3 sm:px-0 text-left items-center sm:items-start max-sm:justify-between text-white flex flex-col flex-1 max-sm:min-h-[60vh]">
+                <div className="px-3 sm:px-0 text-left items-center sm:items-start max-sm:justify-between text-white flex flex-col flex-1 max-sm:min-h-[60vh] sm:pr-8">
                   {!address ? (
                     <>
+                      {/* CONNECT WALLET PAGE */}
                       <p
                         className="text-2xl"
                         style={{
@@ -110,6 +121,7 @@ export default function OnboardingModal({
                     </>
                   ) : (
                     <>
+                      {/* DEPOSIT PAGE */}
                       <p
                         className="text-2xl"
                         style={{
@@ -121,11 +133,7 @@ export default function OnboardingModal({
                         Choose Deposit Amount
                       </p>
                       <form
-                        onSubmit={handleSubmit((data) => {
-                          console.log("Form submitted with values:", data);
-                          setIsDeposited(true);
-                          setOpenModal(false);
-                        })}
+                        onSubmit={handleSubmit(onSubmit)}
                         className="w-full flex flex-col gap-y-3"
                       >
                         <Controller
@@ -148,9 +156,9 @@ export default function OnboardingModal({
                         <div className="self-center max-sm:mt-auto mt-5">
                           <button
                             type="submit"
-                            className="uppercase px-12 py-3 parallelogram bg-background-yellow text-white border-2 border-black hover:scale-105 transition-all duration-300"
+                            className="uppercase shadow-[0_4px_0_0_rgba(0,0,0,1)] text-3xl px-12 py-3 parallelogram bg-background-yellow text-white border-2 border-black hover:scale-105 transition-all duration-300"
                             style={{
-                              textShadow: " -1px 2px 0px #000000",
+                              textShadow: " -1px 3px 0px #000000",
                               WebkitTextFillColor: "white",
                               WebkitTextStroke: "0.2px black",
                             }}
