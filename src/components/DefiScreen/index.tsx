@@ -18,13 +18,19 @@ export default function DefiScreen() {
                 WebkitTextFillColor: "white",
                 WebkitTextStroke: "2px black",
               }}
-              className="text-white text-4xl uppercase text-center tracking-tighter"
+              className="text-white text-4xl uppercase text-center tracking-tighter py-1"
             >
               Command Center
             </h2>
           </div>
           <div className="flex justify-between gap-x-2">
-            <div className="w-1/3 border-2 border-black">
+            <div
+              onClick={() => {
+                // TODO
+                console.log("Low risk Strategy");
+              }}
+              className="w-1/3 border-2 border-black cursor-pointer hover:scale-105 transition-all duration-300"
+            >
               <div className="text-right text-[#7583A4] bg-black">
                 <p>Low risk Strategy</p>
               </div>
@@ -47,7 +53,13 @@ export default function DefiScreen() {
               <div className="bg-[url('/defi-background.png')] object-contain h-32 w-full" />
             </div>
 
-            <div className="w-1/3 border-2 border-black">
+            <div
+              onClick={() => {
+                // TODO
+                console.log("Mid-Risk Strategy");
+              }}
+              className="w-1/3 border-2 border-black cursor-pointer hover:scale-105 transition-all duration-300"
+            >
               <div className="text-right text-[#7583A4] bg-black">
                 <p>Mid-Risk Strategy</p>
               </div>
@@ -70,8 +82,14 @@ export default function DefiScreen() {
               <div className="bg-[url('/balanced.png')] object-contain h-32 w-full" />
             </div>
 
-            <div className="w-1/3 border-2 border-black">
-              <div className="text-right text-[#7583A4] bg-black">
+            <div className="w-1/3 border-2 border-black cursor-pointer hover:scale-105 transition-all duration-300">
+              <div
+                onClick={() => {
+                  // TODO
+                  console.log("High-Risk Strategy");
+                }}
+                className="text-right text-[#7583A4] bg-black"
+              >
                 <p>High-Risk Strategy</p>
               </div>
               <div
@@ -99,7 +117,85 @@ export default function DefiScreen() {
       </div>
 
       {/* FOOTER, fixed at the bottom */}
-      <div className="absolute bottom-0 w-full"></div>
+      <div className="absolute bottom-0 w-full flex items-center justify-center pb-3">
+        <div className="flex justify-center items-end gap-x-3 ml-2">
+          <button
+            onClick={() => {
+              // TODO: Handle rewards click
+              console.log("Rewards clicked");
+            }}
+            type="button"
+            className="focus:outline-none"
+          >
+            <img
+              src="/btn-rewards.svg"
+              className="h-24 w-auto object-contain hover:scale-105 transition-all duration-300"
+              alt="Rewards"
+            />
+          </button>
+
+          <button
+            onClick={() => {
+              // TODO: Handle quests click
+              console.log("Quests clicked");
+            }}
+            type="button"
+            className="focus:outline-none"
+          >
+            <img
+              src="/btn-quests.svg"
+              className="h-24 w-auto object-contain hover:scale-105 transition-all duration-300"
+              alt="Quests"
+            />
+          </button>
+
+          <button
+            onClick={() => {
+              // TODO: Handle history click
+              console.log("History clicked");
+            }}
+            type="button"
+            className="focus:outline-none"
+          >
+            <img
+              src="/btn-history.svg"
+              className="h-24 w-auto object-contain hover:scale-105 transition-all duration-300"
+              alt="History"
+            />
+          </button>
+        </div>
+        <div className="ml-auto flex justify-center items-end gap-x-3 pr-3">
+          <button
+            onClick={() => {
+              // TODO: Handle news click
+              console.log("News clicked");
+            }}
+            type="button"
+            className="focus:outline-none"
+          >
+            <img
+              src="/btn-news.svg"
+              className="h-24 w-auto object-contain hover:scale-105 transition-all duration-300"
+              alt="News"
+            />
+          </button>
+
+          <button
+            onClick={() => {
+              // TODO: Handle AI chat click
+              console.log("AI Chat clicked");
+            }}
+            type="button"
+            className="focus:outline-none"
+          >
+            <img
+              src="/btn-ai-chat.svg"
+              className="h-20 w-auto object-contain hover:scale-105 transition-all duration-300"
+              alt="AI Chat"
+            />
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
