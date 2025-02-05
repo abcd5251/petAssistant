@@ -32,9 +32,14 @@ export default function CustomRainbowKitConnectButton() {
               if (!connected) {
                 return (
                   <button
-                    className="bg-background-gray text-black ml-6 rounded-md px-3 py-1"
+                    className="cursor-pointer text-xl px-16 py-2 bg-background-blue border border-solid border-black parallelogram uppercase text-white ml-6 rounded-md px-3 py-1"
                     onClick={openConnectModal}
                     type="button"
+                    style={{
+                      textShadow: " -1px 2px 0px #000000",
+                      WebkitTextFillColor: "white",
+                      WebkitTextStroke: "0.2px black",
+                    }}
                   >
                     Connect Wallet
                   </button>

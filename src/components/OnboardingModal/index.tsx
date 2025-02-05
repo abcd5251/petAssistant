@@ -7,19 +7,30 @@ import {
   DialogPanel,
   DialogTitle,
 } from "@headlessui/react";
-import {
-  ExclamationTriangleIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import { useAccount } from "wagmi";
+import CustomRainbowKitConnectButton from "../CustomConnectButton";
+import CurrencyInput from "../CurrencyInput";
+import { useForm, Controller } from "react-hook-form";
+
+interface DepositFormData {
+  deposit: {
+    currency: string;
+    amount: string;
+  };
+}
 
 export default function OnboardingModal({
   openModal,
   setOpenModal,
+  setIsDeposited,
 }: {
   openModal: boolean;
   setOpenModal: Dispatch<SetStateAction<boolean>>;
+  setIsDeposited: Dispatch<SetStateAction<boolean>>;
 }) {
-  const [step, setStep] = useState(1);
+  const { address } = useAccount();
+  const { control, handleSubmit } = useForm<DepositFormData>();
 
   return (
     <Dialog
@@ -72,28 +83,84 @@ export default function OnboardingModal({
                   />
                 </div>
                 <div className="px-3 sm:px-0 text-left items-center sm:items-start max-sm:justify-between text-white flex flex-col flex-1 max-sm:min-h-[60vh]">
-                  <p
-                    className="text-2xl"
-                    style={{
-                      textShadow: " -1px 2px 0px #000000",
-                      WebkitTextFillColor: "white",
-                      WebkitTextStroke: "0.5px black",
-                    }}
-                  >
-                    Deposit Funds to Activate Your AI Strategist
-                  </p>
-                  <p className="mt-5">
-                    Before your AI assistant can start optimizing your funds,
-                    you need to deposit some USDC or USDT.
-                  </p>
-                  <p className="max-sm:self-start mt-5">🔹 Why?</p>
-                  <p>
-                    This deposit will be used for executing DeFi strategies and
-                    covering transaction fees when needed.
-                  </p>
-                  <button className="self-center max-sm:mt-auto">
-                    Connect Wallet
-                  </button>
+                  {!address ? (
+                    <>
+                      <p
+                        className="text-2xl"
+                        style={{
+                          textShadow: " -1px 2px 0px #000000",
+                          WebkitTextFillColor: "white",
+                          WebkitTextStroke: "0.5px black",
+                        }}
+                      >
+                        Deposit Funds to Activate Your AI Strategist
+                      </p>
+                      <p className="mt-5">
+                        Before your AI assistant can start optimizing your
+                        funds, you need to deposit some USDC or USDT.
+                      </p>
+                      <p className="max-sm:self-start mt-5">🔹 Why?</p>
+                      <p>
+                        This deposit will be used for executing DeFi strategies
+                        and covering transaction fees when needed.
+                      </p>
+                      <div className="self-center max-sm:mt-auto mt-5">
+                        <CustomRainbowKitConnectButton />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <p
+                        className="text-2xl"
+                        style={{
+                          textShadow: " -1px 2px 0px #000000",
+                          WebkitTextFillColor: "white",
+                          WebkitTextStroke: "0.5px black",
+                        }}
+                      >
+                        Choose Deposit Amount
+                      </p>
+                      <form
+                        onSubmit={handleSubmit((data) => {
+                          console.log("Form submitted with values:", data);
+                          setIsDeposited(true);
+                          setOpenModal(false);
+                        })}
+                        className="w-full flex flex-col gap-y-3"
+                      >
+                        <Controller
+                          name="deposit"
+                          control={control}
+                          rules={{
+                            required: "Please enter an amount",
+                            validate: {
+                              positive: (value) =>
+                                parseFloat(value.amount) > 0 ||
+                                "Amount must be greater than 0",
+                            },
+                          }}
+                          render={({ field }) => <CurrencyInput {...field} />}
+                        />
+                        <p className="text-sm mt-2">
+                          ⚡ If your deposit covers the required gas, you're
+                          good to go! Otherwise, we'll remind you to top up.
+                        </p>
+                        <div className="self-center max-sm:mt-auto mt-5">
+                          <button
+                            type="submit"
+                            className="uppercase px-12 py-3 parallelogram bg-background-yellow text-white border-2 border-black hover:scale-105 transition-all duration-300"
+                            style={{
+                              textShadow: " -1px 2px 0px #000000",
+                              WebkitTextFillColor: "white",
+                              WebkitTextStroke: "0.2px black",
+                            }}
+                          >
+                            <span>Deposit</span>
+                          </button>
+                        </div>
+                      </form>
+                    </>
+                  )}
                 </div>
               </div>
             </div>

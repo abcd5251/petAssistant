@@ -1,8 +1,12 @@
 "use client";
-import { useState } from "react";
+import { useState, Dispatch, SetStateAction } from "react";
 import OnboardingModal from "../OnboardingModal";
 
-export default function WelcomeScreen() {
+interface Props {
+  setIsDeposited: Dispatch<SetStateAction<boolean>>;
+}
+
+export default function WelcomeScreen({ setIsDeposited }: Props) {
   const [openModal, setOpenModal] = useState(false);
 
   return (
@@ -39,7 +43,11 @@ export default function WelcomeScreen() {
           <span>Start</span>
         </button>
         {openModal && (
-          <OnboardingModal openModal={openModal} setOpenModal={setOpenModal} />
+          <OnboardingModal
+            openModal={openModal}
+            setOpenModal={setOpenModal}
+            setIsDeposited={setIsDeposited}
+          />
         )}
       </div>
     </div>

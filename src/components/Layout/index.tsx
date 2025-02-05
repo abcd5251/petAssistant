@@ -3,16 +3,18 @@
 import { useAccount } from "wagmi";
 import WelcomeScreen from "../WelcomeScreen";
 import DefiScreen from "../DefiScreen";
+import { useState } from "react";
 
 export default function Layout() {
+  const [isDeposited, setIsDeposited] = useState(false);
   const { address } = useAccount();
 
-  return <DefiScreen />;
+  //   return <DefiScreen />;
 
-  //   if (address) {
-  //     return <DefiScreen />;
-  //   } else {
-  //     // wallet not connected.
-  //     return <WelcomeScreen />;
-  //   }
+  if (address && isDeposited) {
+    return <DefiScreen />;
+  } else {
+    // wallet not connected.
+    return <WelcomeScreen setIsDeposited={setIsDeposited} />;
+  }
 }
