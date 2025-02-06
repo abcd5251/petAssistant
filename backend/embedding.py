@@ -2,7 +2,7 @@ import os
 from qdrant_client import QdrantClient
 from qdrant_client.http import models
 from qdrant_client.http.models import PointStruct
-from utils.constant import COLLECTION_NAME, EMBEDDING_MODEL, FILE_PATH
+from utils.constants import COLLECTION_NAME, EMBEDDING_MODEL, FILE_PATH
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 import tiktoken
 import numpy as np
@@ -65,13 +65,28 @@ def get_embedding(text, model=EMBEDDING_MODEL):
     )
     return response.data[0].embedding
 
+def get_client():
+    return QdrantClient(
+        url=os.getenv("QDRANT_DB_URL"),
+        api_key=os.getenv("QDRANT_APIKEY")
+    )
+
+def search_from_qdrant(client, vector, k):
+    search_result = client.search(
+        collection_name=COLLECTION_NAME,
+        query_vector=vector,
+        limit=k,
+        append_payload=True,
+    )
+    return search_result
+
 def main():
 
     with open(FILE_PATH) as f:
         contents = f.read()
 
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=800,
+        chunk_size=1000,
         chunk_overlap=150,
         length_function=len,
         separators=[
