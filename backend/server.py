@@ -88,3 +88,10 @@ async def get_summary():
     result = await generate_summary()
     print(result)
     return {"summary": result}
+
+@app.post("/defiInfo")
+async def process_simple_input(data: InputData):
+    
+    return {"result": "good"}
+
+
