@@ -1,6 +1,5 @@
 import tiktoken 
 
-
 COMPLETIONS_MODEL = "gpt-4o-mini"
 
 def num_tokens_from_string(string: str, encoding_name = COMPLETIONS_MODEL) -> int:
