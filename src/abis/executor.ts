@@ -268,4 +268,4 @@ export const executorAbi = [
     outputs: [{ name: "", type: "address", internalType: "contract IVault" }],
     stateMutability: "view",
   },
-] as const;
+];
