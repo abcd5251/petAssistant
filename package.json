@@ -12,7 +12,10 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.1",
+    "@wagmi/core": "^2.16.3",
     "@web3auth/auth-adapter": "^9.5.3",
     "@web3auth/base": "^9.5.1",
     "@web3auth/ethereum-provider": "^9.5.1",
@@ -25,7 +28,7 @@
     "typescript": "^5.0.1",
     "viem": "^2.7.19",
     "vite": "^5.3.5",
-    "wagmi": "2.5.7",
+    "wagmi": "2.14.10",
     "web-vitals": "^3.5.2"
   },
   "overrides": {

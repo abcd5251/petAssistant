@@ -1,17 +1,21 @@
 "use client";
 
-import { useState, Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import {
   Dialog,
   DialogBackdrop,
   DialogPanel,
   DialogTitle,
 } from "@headlessui/react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
-import { useAccount } from "wagmi";
+import { useAccount, useWriteContract } from "wagmi";
+import { useForm, Controller } from "react-hook-form";
+import { erc20Abi } from "viem";
+import { waitForTransactionReceipt } from "@wagmi/core";
+
 import CustomRainbowKitConnectButton from "../CustomConnectButton";
 import CurrencyInput from "../CurrencyInput";
-import { useForm, Controller } from "react-hook-form";
+import { vaultAbi } from "../../abis/vault";
+import { config } from "../../config";
 
 interface DepositFormData {
   deposit: {
@@ -19,6 +23,10 @@ interface DepositFormData {
     amount: string;
   };
 }
+
+const USDC_DECIMAL = 10e6;
+const USDC = "0x036CbD53842c5426634e7929541eC2318f3dCF7e";
+const VAULT = "0xaA0374509a9FE96C95A9D3C423ac577814243742";
 
 export default function OnboardingModal({
   openModal,
@@ -31,10 +39,38 @@ export default function OnboardingModal({
 }) {
   const { address } = useAccount();
   const { control, handleSubmit } = useForm<DepositFormData>();
+  const { writeContractAsync } = useWriteContract();
 
-  function onSubmit(data: DepositFormData) {
-    // TODO: trigger contract function to deposit
+  async function onSubmit(data: DepositFormData) {
     console.log("Form submitted with values:", data);
+
+    const parsedAmount = BigInt(data.deposit.amount) * BigInt(USDC_DECIMAL);
+    {
+      const tx = await writeContractAsync({
+        abi: erc20Abi,
+        address: USDC,
+        functionName: "approve",
+        args: [VAULT, parsedAmount],
+      });
+
+      await waitForTransactionReceipt(config, {
+        hash: tx,
+      });
+    }
+
+    {
+      const tx = await writeContractAsync({
+        abi: vaultAbi,
+        address: VAULT,
+        functionName: "deposit",
+        args: [parsedAmount],
+      });
+
+      await waitForTransactionReceipt(config, {
+        hash: tx,
+      });
+    }
+
     setIsDeposited(true);
     setOpenModal(false);
   }
