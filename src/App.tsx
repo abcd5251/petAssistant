@@ -6,30 +6,9 @@ import {
   getDefaultConfig,
 } from "@rainbow-me/rainbowkit";
 import { WagmiProvider, http } from "wagmi";
-import { rainbowWeb3AuthConnector } from "./RainbowWeb3authConnector";
-import { rainbowWallet, metaMaskWallet } from "@rainbow-me/rainbowkit/wallets";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { sepolia, mainnet, arbitrum, base, baseSepolia} from "wagmi/chains";
 import Layout from "./components/Layout";
-
-const config = getDefaultConfig({
-  appName: "My RainbowKit App",
-  projectId: "04309ed1007e77d1f119b85205bb779d",
-  chains: [mainnet, sepolia, arbitrum, base],
-  transports: {
-    [mainnet.id]: http(),
-    [sepolia.id]: http(),
-    [arbitrum.id]: http(),
-    [base.id]: http(),
-    [baseSepolia.id]: http(),
-  },
-  wallets: [
-    {
-      groupName: "Recommended",
-      wallets: [rainbowWallet, rainbowWeb3AuthConnector, metaMaskWallet],
-    },
-  ],
-});
+import { config } from "./config";
 
 const queryClient = new QueryClient();
 
