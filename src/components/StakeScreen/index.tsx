@@ -1,16 +1,17 @@
 import { useState } from "react";
-import CurrencyInput from "../CurrencyInput";
 import { useForm, Controller } from "react-hook-form";
 import type { TypedData } from "viem";
-import { EXECUTOR, USDC, USDC_DECIMAL } from "../../helpers/constants";
-import { signTypedData } from "@wagmi/core";
-import { config } from "../../config";
 import { baseSepolia } from "wagmi/chains";
+import { useAccount, useReadContract } from "wagmi";
+import { waitForTransactionReceipt, signTypedData } from "@wagmi/core";
+import { ToastContainer, toast } from "react-toastify";
+
+import { EXECUTOR, USDC, USDC_DECIMAL } from "../../helpers/constants";
+import CurrencyInput from "../CurrencyInput";
+import { config } from "../../config";
 import { usdcAbi } from "../../abis/usdc";
 import { execution } from "../../helpers/mock-backend";
-import { useAccount, useReadContract } from "wagmi";
 import { createMorphoCall } from "../../helpers/strategy";
-import { waitForTransactionReceipt } from "@wagmi/core";
 
 const types = {
   Permit: [
@@ -62,8 +63,6 @@ export default function StakeScreen({ isOpen, onClose }: StakeScreenProps) {
     const deadline = BigInt(timestampInSeconds) + BigInt(EXPIRY);
     const amount = serializeAmount(data.deposit.amount, USDC_DECIMAL);
 
-    console.log("Amount", amount);
-
     const signature = await signTypedData(config, {
       domain: {
         name: "USDC",
@@ -83,15 +82,20 @@ export default function StakeScreen({ isOpen, onClose }: StakeScreenProps) {
     });
 
     const calls = await createMorphoCall(address!, amount, deadline, signature);
-    console.log("Calls", calls);
     const tx = await execution(address!, calls);
-
-    await waitForTransactionReceipt(config, {
-      hash: tx,
-    });
 
     console.log("Tx done");
     console.log("Call tx", tx);
+    toast.promise(
+      waitForTransactionReceipt(config, {
+        hash: tx,
+      }),
+      {
+        pending: "Transaction is pending...",
+        success: `Transaction confirmed ! \n Tx hash: ${tx}`,
+        error: "Transaction failed",
+      }
+    );
   }
 
   if (!isOpen) return null;
@@ -146,6 +150,7 @@ export default function StakeScreen({ isOpen, onClose }: StakeScreenProps) {
             </form>
           </div>
         </div>
+        <ToastContainer position="bottom-right" />
       </div>
     </>
   );
