@@ -16,6 +16,7 @@ import CustomRainbowKitConnectButton from "../CustomConnectButton";
 import CurrencyInput from "../CurrencyInput";
 import { vaultAbi } from "../../abis/vault";
 import { config } from "../../config";
+import { USDC, VAULT, USDC_DECIMAL } from "../../helpers/constants";
 
 interface DepositFormData {
   deposit: {
@@ -23,10 +24,6 @@ interface DepositFormData {
     amount: string;
   };
 }
-
-const USDC_DECIMAL = 10e6;
-const USDC = "0x036CbD53842c5426634e7929541eC2318f3dCF7e";
-const VAULT = "0xaA0374509a9FE96C95A9D3C423ac577814243742";
 
 export default function OnboardingModal({
   openModal,
