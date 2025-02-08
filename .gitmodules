@@ -1,0 +1,3 @@
+[submodule "agentic-hack"]
+	path = contracts
+	url = https://github.com/LI-YONG-QI/agentic-hack
