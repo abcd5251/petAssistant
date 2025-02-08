@@ -4,30 +4,25 @@ import { useAccount, useReadContract } from "wagmi";
 import { signTypedData } from "@wagmi/core";
 import { waitForTransactionReceipt } from "@wagmi/core";
 import { baseSepolia } from "wagmi/chains";
-import type { TypedData } from "viem";
+
 import { config } from "../../config";
-import { EXECUTOR, USDC, USDC_DECIMAL } from "../../helpers/constants";
+import {
+  EXECUTOR,
+  USDC,
+  USDC_DECIMAL,
+  TYPES,
+  PERMIT_EXPIRY,
+} from "../../helpers/constants";
 import { usdcAbi } from "../../abis/usdc";
 import { execution } from "../../helpers/mock-backend";
-import React, { useState } from "react";
-import StrategyPopup from '../StrategyPopup';
-import AIStrategy from '../AIStrategy';
-import StakeScreen from '../StakeScreen';
-import NewsPopup from '../LatestNews';
+import { useState } from "react";
+import StrategyPopup from "../StrategyPopup";
+import AIStrategy from "../AIStrategy";
+import StakeScreen from "../StakeScreen";
+import NewsPopup from "../LatestNews";
 import { createMorphoCall } from "../../helpers/strategy";
 
-const types = {
-  Permit: [
-    { name: "owner", type: "address" },
-    { name: "spender", type: "address" },
-    { name: "value", type: "uint256" },
-    { name: "nonce", type: "uint256" },
-    { name: "deadline", type: "uint256" },
-  ],
-} as const satisfies TypedData;
-
 const MOCK_VAUlE = BigInt(1);
-const EXPIRY = 60000;
 
 export default function DefiScreen() {
   const { address } = useAccount();
@@ -44,7 +39,7 @@ export default function DefiScreen() {
 
   async function testSign() {
     const timestampInSeconds = Math.floor(Date.now() / 1000);
-    const deadline = BigInt(timestampInSeconds) + BigInt(EXPIRY);
+    const deadline = BigInt(timestampInSeconds) + BigInt(PERMIT_EXPIRY);
     const amount = MOCK_VAUlE * BigInt(USDC_DECIMAL);
 
     const signature = await signTypedData(config, {
@@ -54,7 +49,7 @@ export default function DefiScreen() {
         verifyingContract: USDC,
         version: "2",
       },
-      types,
+      types: TYPES,
       primaryType: "Permit",
       message: {
         owner: address!,
@@ -260,7 +255,7 @@ export default function DefiScreen() {
 
           <button
             onClick={() => {
-              setShowAIStrategy(true)
+              setShowAIStrategy(true);
               console.log("AI Chat clicked");
             }}
             type="button"
@@ -274,26 +269,23 @@ export default function DefiScreen() {
           </button>
         </div>
       </div>
-      <StrategyPopup 
-        isOpen={showPopup} 
-        onClose={() => setShowPopup(false)} 
+      <StrategyPopup
+        isOpen={showPopup}
+        onClose={() => setShowPopup(false)}
         setShowAIStrategy={setShowAIStrategy}
         setShowPopup={setShowPopup}
         setShowStake={setShowStake}
       />
-      <AIStrategy 
-        isOpen={showAIStrategy} 
-        onClose={() => setShowAIStrategy(false)} 
+      <AIStrategy
+        isOpen={showAIStrategy}
+        onClose={() => setShowAIStrategy(false)}
         setShowAIStrategy={setShowAIStrategy}
         setShowPopup={setShowPopup}
       />
-      <StakeScreen
-        isOpen={showStake} 
-        onClose={() => setShowStake(false)} 
-      />
+      <StakeScreen isOpen={showStake} onClose={() => setShowStake(false)} />
       <NewsPopup
-        isOpen={showNews} 
-        onClose={() => setShowNews(false)} 
+        isOpen={showNews}
+        onClose={() => setShowNews(false)}
         setShowNews={setShowNews}
       />
     </div>
