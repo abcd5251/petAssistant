@@ -11,6 +11,7 @@ import { usdcAbi } from "../../abis/usdc";
 import { execution } from "../../helpers/mock-backend";
 import React, { useState } from "react";
 import StrategyPopup from '../StrategyPopup';
+import AIStrategy from '../AIStrategy';
 import { createMorphoCall } from "../../helpers/strategy";
 
 const types = {
@@ -35,7 +36,7 @@ export default function DefiScreen() {
     args: [address!],
   });
   const [showPopup, setShowPopup] = useState(false);
-
+  const [showAIStrategy, setShowAIStrategy] = useState(false);
   async function testSign() {
     const timestampInSeconds = Math.floor(Date.now() / 1000);
     const deadline = BigInt(timestampInSeconds) + BigInt(EXPIRY);
@@ -271,6 +272,14 @@ export default function DefiScreen() {
       <StrategyPopup 
         isOpen={showPopup} 
         onClose={() => setShowPopup(false)} 
+        setShowAIStrategy={setShowAIStrategy}
+        setShowPopup={setShowPopup}
+      />
+      <AIStrategy 
+        isOpen={showAIStrategy} 
+        onClose={() => setShowAIStrategy(false)} 
+        setShowAIStrategy={setShowAIStrategy}
+        setShowPopup={setShowPopup}
       />
     </div>
   );

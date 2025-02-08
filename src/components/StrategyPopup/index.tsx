@@ -1,88 +1,82 @@
 import React, { useState } from 'react';
-import AIStrategy from '../AIStrategy';
+
 
 interface StrategyPopupProps {
   isOpen: boolean;
   onClose: () => void;
+  setShowAIStrategy: (show: boolean) => void;
+  setShowPopup: (show: boolean) => void;
 }
 
-export default function StrategyPopup({ isOpen, onClose }: StrategyPopupProps) {
-  const [showAIStrategy, setShowAIStrategy] = useState(false);
+export default function StrategyPopup({ isOpen, onClose, setShowAIStrategy, setShowPopup }: StrategyPopupProps) {
+  const [showMorpho, setShowMorpho] = useState(false);
   const handleAIStrategyClick = () => {
     setShowAIStrategy(true);
+    setShowPopup(false);
+
   };
 
   if (!isOpen) return null;
 
   return (
     <>
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div className="bg-[#1E90FF] text-white rounded-lg shadow-lg p-6 w-[90vw] max-w-[600px]">
-          {/* Header */}
-          <div className="flex justify-between items-center border-b border-white pb-2">
-            <h2 className="text-xl font-bold uppercase tracking-wide">
-              Safe Harbor
-            </h2>
-            <button
-              onClick={onClose}
-              className="text-white text-xl font-bold hover:text-gray-300"
-            >
-              ✖
-            </button>
-          </div>
+      <div className="fixed inset-0  flex items-center justify-center z-50">
+        <div className='bg-gray-900/80 absolute t-0 left-0 w-full h-full z-0'></div>
+          <div className="bg-[#1E90FF] text-white rounded-lg shadow-lg p-6 w-[90vw] max-w-[600px] z-10 relative">
+            {/* Header */}
+            <div className="flex justify-between items-center border-b border-white pb-2">
+              <img 
+                src="/morpho/eventInfo.svg" 
+                className="h-6"
+              />
+              <img 
+                src="/morpho/cancel.svg" 
+                className="h-10 absolute -right-2 top-2 cursor-pointer"
+                onClick={onClose}
+              />
+            </div>
 
-          {/* Body */}
-          <div className="mt-4">
-            <h3 className="text-lg font-bold mb-2">
-              Morpho Lending Strategy
-            </h3>
-            <p className="text-sm mb-4">
-              Use Gauntlet WETH Prime Vault in Morpho to help you earn a steady
-              return on your WETH. It provides you with a stable and low-risk
-              income.
-            </p>
-
-            <div className="flex items-center gap-x-4 mb-4">
+            {/* Body */}
+            <div className="mt-4 relative">
+              <img 
+              src="/morpho/Morpho.svg" 
+              className="h-10 mb-4 inline-block"
+              />
+              <img 
+              src="/morpho/mark.svg" 
+              className="h-8 mb-4 ml-2 inline-block cursor-pointer"
+              onClick={() => setShowMorpho(!showMorpho)}
+              />
+              {showMorpho && (
+                <img 
+                src="/morpho/morphoShow.svg" 
+                className="absolute -top-48 right-6 "
+                />
+              )}
               <a
-                href="https://app.morpho.org/vault/?vault=897a21a1-45"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm underline hover:text-gray-300"
-              >
-                https://app.morpho.org/vault/?vault=897a21a1-45
+                href="https://app.morpho.org/vault/?vault=897a21a1-45">
+                <img 
+                  src="/morpho/intro.svg" 
+                  className="h-40 "
+                  />
               </a>
-            </div>
 
-            {/* APY Section */}
-            <div className="flex items-center justify-between bg-black bg-opacity-20 px-4 py-2 rounded-md mb-4">
-              <div className="flex items-center gap-x-2">
-                <span className="text-lg">💙</span>
-                <span className="font-bold text-lg">APY: 3.72%</span>
-              </div>
-              <span className="px-3 py-1 bg-green-500 text-sm font-bold rounded-md">
-                Low Risk
-              </span>
-            </div>
-
-            {/* Action Section */}
-            <div className="flex flex-col items-center gap-y-2">
-              <button 
+              {/* Action Section */}
+              <div className="flex flex-col items-center gap-y-2">
+                <img
+                  src="/morpho/AiButton.svg"
                   onClick={handleAIStrategyClick}
-                  className="px-4 py-2 bg-blue-600 rounded-md hover:bg-blue-700 w-full"
-                >
-                Your AI Strategist
-              </button>
-              <button className="px-4 py-2 bg-white text-blue-600 rounded-md hover:bg-gray-200 w-full font-bold">
-                Deposit
-              </button>
+                  className="h-16 ml-1.5 cursor-pointer"
+                />
+                 <img
+                  src="/morpho/deposit.svg"
+                  onClick={handleAIStrategyClick}
+                  className="h-16 cursor-pointer"
+                />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <AIStrategy 
-        isOpen={showAIStrategy} 
-        onClose={() => setShowAIStrategy(false)} 
-      />
     </>
   );
 }
