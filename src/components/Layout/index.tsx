@@ -9,12 +9,10 @@ export default function Layout() {
   const [isDeposited, setIsDeposited] = useState(false);
   const { address } = useAccount();
 
-  //   return <DefiScreen />;
-  return <DefiScreen />;
-  // if (address && isDeposited) {
-  //   return <DefiScreen />;
-  // } else {
-  //   // wallet not connected.
-  //   return <WelcomeScreen setIsDeposited={setIsDeposited} />;
-  // }
+  if (address && isDeposited) {
+    return <DefiScreen />;
+  } else {
+    // wallet not connected.
+    return <WelcomeScreen setIsDeposited={setIsDeposited} />;
+  }
 }
