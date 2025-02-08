@@ -21,7 +21,7 @@ export default function WelcomeScreen({ setIsDeposited }: Props) {
           }}
           className="uppercase text-6xl md:text-8xl italic tracking-tighter"
         >
-          defi saga
+          One Vault
         </h1>
         <h3
           style={{

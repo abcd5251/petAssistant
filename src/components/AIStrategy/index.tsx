@@ -54,8 +54,15 @@ export default function AIStrategy({ isOpen, onClose, setShowAIStrategy, setShow
   const handleBackClick = () => {
     setShowAIStrategy(false);
     setShowPopup(true);
-
+    setMessages([]);
+    setInputText(''); 
   };
+  const handleCancelClick = () => {
+    setShowAIStrategy(false);
+    setMessages([]);
+    setInputText(''); 
+  };
+ 
   if (!isOpen) return null;
 
   return (
@@ -77,7 +84,7 @@ export default function AIStrategy({ isOpen, onClose, setShowAIStrategy, setShow
             <img 
                 src="/morpho/cancel.svg" 
                 className="h-10 absolute -right-2 top-2 cursor-pointer"
-                onClick={onClose}
+                onClick={handleCancelClick}
             />
           </div>
 
@@ -98,16 +105,20 @@ export default function AIStrategy({ isOpen, onClose, setShowAIStrategy, setShow
 
                 {/* Question Buttons */}
                 <div className="grid grid-cols-4 gap-4 w-full max-w-lg">
-                  <button className="bg-blue-400 p-2 rounded-lg text-xs text-white">
+                  <button className="bg-blue-400 p-2 rounded-lg text-xs text-white"
+                   onClick={() => setInputText("How does Morpho's lending work?")}>
                     How does Morpho's lending work?
                   </button>
-                  <button className="bg-blue-400 p-2 rounded-lg text-xs text-white">
+                  <button className="bg-blue-400 p-2 rounded-lg text-xs text-white"
+                  onClick={() => setInputText("What makes the Gauntlet WETH Prime Vault different?")}>
                     What makes the Gauntlet WETH Prime Vault different?
                   </button>
-                  <button className="bg-blue-400 p-2 rounded-lg text-xs text-white">
+                  <button className="bg-blue-400 p-2 rounded-lg text-xs text-white"
+                  onClick={() => setInputText("How is the 3.72% APY calculated?")}>
                     How is the 3.72% APY calculated?
                   </button>
-                  <button className="bg-blue-400 p-2 rounded-lg text-xs text-white">
+                  <button className="bg-blue-400 p-2 rounded-lg text-xs text-white"
+                  onClick={() => setInputText("What risks should I be aware of?")}>
                     What risks should I be aware of?
                   </button>
                 </div>
