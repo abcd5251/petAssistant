@@ -6,14 +6,19 @@ interface StrategyPopupProps {
   onClose: () => void;
   setShowAIStrategy: (show: boolean) => void;
   setShowPopup: (show: boolean) => void;
+  setShowStake: (show: boolean) => void;
 }
 
-export default function StrategyPopup({ isOpen, onClose, setShowAIStrategy, setShowPopup }: StrategyPopupProps) {
+export default function StrategyPopup({ isOpen, onClose, setShowAIStrategy, setShowPopup, setShowStake }: StrategyPopupProps) {
   const [showMorpho, setShowMorpho] = useState(false);
   const handleAIStrategyClick = () => {
     setShowAIStrategy(true);
     setShowPopup(false);
 
+  };
+  const handleExecuteClick = () => {
+    setShowStake(true);
+    setShowPopup(false);
   };
 
   if (!isOpen) return null;
@@ -24,11 +29,14 @@ export default function StrategyPopup({ isOpen, onClose, setShowAIStrategy, setS
         <div className='bg-gray-900/80 absolute t-0 left-0 w-full h-full z-0'></div>
           <div className="bg-[#1E90FF] text-white rounded-lg shadow-lg p-6 w-[90vw] max-w-[600px] z-10 relative">
             {/* Header */}
-            <div className="flex justify-between items-center border-b border-white pb-2">
+            <div className="flex justify-center items-center border-b border-white pb-2">
+              <div className='items-center' >
+              <span className='text-3xl inline-block'>🛡️</span>
               <img 
                 src="/morpho/eventInfo.svg" 
-                className="h-6"
+                className="h-6 inline-block"
               />
+              </div>
               <img 
                 src="/morpho/cancel.svg" 
                 className="h-10 absolute -right-2 top-2 cursor-pointer"
@@ -70,7 +78,7 @@ export default function StrategyPopup({ isOpen, onClose, setShowAIStrategy, setS
                 />
                  <img
                   src="/morpho/deposit.svg"
-                  onClick={handleAIStrategyClick}
+                  onClick={handleExecuteClick}
                   className="h-16 cursor-pointer"
                 />
               </div>

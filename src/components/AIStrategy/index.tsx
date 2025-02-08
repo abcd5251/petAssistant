@@ -71,6 +71,10 @@ export default function AIStrategy({ isOpen, onClose, setShowAIStrategy, setShow
                 onClick={handleBackClick}
             />
             <img 
+                src="/AIChat/topic.svg" 
+                className="h-5 absolute right-55 top-5 cursor-pointer"
+            />
+            <img 
                 src="/morpho/cancel.svg" 
                 className="h-10 absolute -right-2 top-2 cursor-pointer"
                 onClick={onClose}
@@ -140,7 +144,7 @@ export default function AIStrategy({ isOpen, onClose, setShowAIStrategy, setShow
             )}
 
             {/* Question Input */}
-            <div className="w-full mt-auto">
+            <div className="w-full mt-10">
               <div className="flex p-2">
                 <input
                   type="text"

@@ -12,6 +12,8 @@ import { execution } from "../../helpers/mock-backend";
 import React, { useState } from "react";
 import StrategyPopup from '../StrategyPopup';
 import AIStrategy from '../AIStrategy';
+import StakeScreen from '../StakeScreen';
+import NewsPopup from '../LatestNews';
 import { createMorphoCall } from "../../helpers/strategy";
 
 const types = {
@@ -37,6 +39,9 @@ export default function DefiScreen() {
   });
   const [showPopup, setShowPopup] = useState(false);
   const [showAIStrategy, setShowAIStrategy] = useState(false);
+  const [showStake, setShowStake] = useState(false);
+  const [showNews, setShowNews] = useState(false);
+
   async function testSign() {
     const timestampInSeconds = Math.floor(Date.now() / 1000);
     const deadline = BigInt(timestampInSeconds) + BigInt(EXPIRY);
@@ -240,7 +245,7 @@ export default function DefiScreen() {
         <div className="ml-auto flex justify-center items-end gap-x-3 pr-3">
           <button
             onClick={() => {
-              // TODO: Handle news click
+              setShowNews(true);
               console.log("News clicked");
             }}
             type="button"
@@ -255,7 +260,7 @@ export default function DefiScreen() {
 
           <button
             onClick={() => {
-              // TODO: Handle AI chat click
+              setShowAIStrategy(true)
               console.log("AI Chat clicked");
             }}
             type="button"
@@ -274,12 +279,22 @@ export default function DefiScreen() {
         onClose={() => setShowPopup(false)} 
         setShowAIStrategy={setShowAIStrategy}
         setShowPopup={setShowPopup}
+        setShowStake={setShowStake}
       />
       <AIStrategy 
         isOpen={showAIStrategy} 
         onClose={() => setShowAIStrategy(false)} 
         setShowAIStrategy={setShowAIStrategy}
         setShowPopup={setShowPopup}
+      />
+      <StakeScreen
+        isOpen={showStake} 
+        onClose={() => setShowStake(false)} 
+      />
+      <NewsPopup
+        isOpen={showNews} 
+        onClose={() => setShowNews(false)} 
+        setShowNews={setShowNews}
       />
     </div>
   );

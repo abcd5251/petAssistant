@@ -11,10 +11,10 @@ export default function Layout() {
 
   //   return <DefiScreen />;
   return <DefiScreen />;
-  if (address && isDeposited) {
-    return <DefiScreen />;
-  } else {
-    // wallet not connected.
-    return <WelcomeScreen setIsDeposited={setIsDeposited} />;
-  }
+  // if (address && isDeposited) {
+  //   return <DefiScreen />;
+  // } else {
+  //   // wallet not connected.
+  //   return <WelcomeScreen setIsDeposited={setIsDeposited} />;
+  // }
 }
