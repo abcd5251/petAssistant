@@ -8,9 +8,10 @@ import { baseSepolia } from "viem/chains";
 import { executorAbi } from "../abis/executor";
 import { EXECUTOR } from "./constants";
 
-const account = privateKeyToAccount(
-  import.meta.env.VITE_ADMIN_PRIVATE_KEY as `0x${string}`
-);
+// const account = privateKeyToAccount(
+//   import.meta.env.VITE_ADMIN_PRIVATE_KEY as `0x${string}`
+// );
+const account = "1234567"; 
 
 const adminWallet = createWalletClient({
   chain: baseSepolia,

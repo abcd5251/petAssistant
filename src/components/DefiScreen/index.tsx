@@ -5,11 +5,12 @@ import { signTypedData } from "@wagmi/core";
 import { waitForTransactionReceipt } from "@wagmi/core";
 import { baseSepolia } from "wagmi/chains";
 import type { TypedData } from "viem";
-
 import { config } from "../../config";
 import { EXECUTOR, USDC, USDC_DECIMAL } from "../../helpers/constants";
 import { usdcAbi } from "../../abis/usdc";
 import { execution } from "../../helpers/mock-backend";
+import React, { useState } from "react";
+import StrategyPopup from '../StrategyPopup';
 import { createMorphoCall } from "../../helpers/strategy";
 
 const types = {
@@ -33,6 +34,7 @@ export default function DefiScreen() {
     functionName: "nonces",
     args: [address!],
   });
+  const [showPopup, setShowPopup] = useState(false);
 
   async function testSign() {
     const timestampInSeconds = Math.floor(Date.now() / 1000);
@@ -127,10 +129,7 @@ export default function DefiScreen() {
             </div>
 
             <div
-              onClick={() => {
-                // TODO
-                console.log("Mid-Risk Strategy");
-              }}
+              onClick={() => setShowPopup(true)}
               className="w-1/3 border-2 border-black cursor-pointer hover:scale-105 transition-all duration-300"
             >
               <div className="text-right text-[#7583A4] bg-black">
@@ -269,6 +268,10 @@ export default function DefiScreen() {
           </button>
         </div>
       </div>
+      <StrategyPopup 
+        isOpen={showPopup} 
+        onClose={() => setShowPopup(false)} 
+      />
     </div>
   );
 }

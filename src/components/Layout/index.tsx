@@ -10,7 +10,7 @@ export default function Layout() {
   const { address } = useAccount();
 
   //   return <DefiScreen />;
-
+  return <DefiScreen />;
   if (address && isDeposited) {
     return <DefiScreen />;
   } else {
