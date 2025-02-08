@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request
 import json
-from crawl4ai import *
+#from crawl4ai import *
 from embedding import get_client, get_embedding, search_from_qdrant
 from models.model import OpenAIModel
 from models.schema import InputData, QueryNews
@@ -73,23 +73,23 @@ async def get_news(data: QueryNews):
     summary_news_content = summary_news(total_news)
     return {"news": total_data, "summary": summary_news_content}
 
-async def generate_summary():
-    async with AsyncWebCrawler() as crawler:
-        result = await crawler.arun(
-            url="https://followin.io/en/news",
-        )
-        print(result.markdown)
-        summary_news_content = summary_news(result.markdown)
-        fear_result = get_fear_and_greed_index()
+# async def generate_summary():
+#     async with AsyncWebCrawler() as crawler:
+#         result = await crawler.arun(
+#             url="https://followin.io/en/news",
+#         )
+#         print(result.markdown)
+#         summary_news_content = summary_news(result.markdown)
+#         fear_result = get_fear_and_greed_index()
         
-        output_text = f"{summary_news_content}\n\nFear and Greed Index: {fear_result['value']}\nSentiment: {fear_result['sentiment']}"
-        return output_text
+#         output_text = f"{summary_news_content}\n\nFear and Greed Index: {fear_result['value']}\nSentiment: {fear_result['sentiment']}"
+#         return output_text
 
-@app.get("/summary")
-async def get_summary():
-    result = await generate_summary()
-    print(result)
-    return {"summary": result}
+# @app.get("/summary")
+# async def get_summary():
+#     result = await generate_summary()
+#     print(result)
+#     return {"summary": result}
 
 @app.post("/defiInfo")
 async def process_simple_input(data: InputData):
