@@ -1,8 +1,8 @@
 //! Now only base on base sepolia
 import type { TypedData } from "viem";
 
-export const EXECUTOR = "0xDA8883dDfD6a5e0B703fD87dfC8a11846128b62e";
-export const VAULT = "0xaA0374509a9FE96C95A9D3C423ac577814243742";
+export const EXECUTOR = "0x4Aa2cD94921a7649b4c35F9dBbEAA3f542533560";
+export const VAULT = "0xDC207f2D240C2bF3bbFEE32B488F7C463B1E6237";
 export const USDC = "0x036CbD53842c5426634e7929541eC2318f3dCF7e";
 export const USDC_DECIMAL = 10e5;
 
