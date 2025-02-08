@@ -7,10 +7,14 @@ import {
   DialogPanel,
   DialogTitle,
 } from "@headlessui/react";
-import { useAccount, useReadContract } from "wagmi";
+import { useAccount } from "wagmi";
 import { baseSepolia } from "wagmi/chains";
 import { useForm, Controller } from "react-hook-form";
-import { waitForTransactionReceipt, signTypedData } from "@wagmi/core";
+import {
+  waitForTransactionReceipt,
+  signTypedData,
+  readContract,
+} from "@wagmi/core";
 import { ToastContainer, toast } from "react-toastify";
 
 import CustomRainbowKitConnectButton from "../CustomConnectButton";
@@ -47,12 +51,6 @@ export default function OnboardingModal({
 }) {
   const { address } = useAccount();
   const { control, handleSubmit } = useForm<DepositFormData>();
-  const { data: nonce } = useReadContract({
-    abi: usdcAbi,
-    address: USDC,
-    functionName: "nonces",
-    args: [address!],
-  });
 
   async function onSubmit(data: DepositFormData) {
     console.log("Form submitted with values:", data);
@@ -60,6 +58,13 @@ export default function OnboardingModal({
     const timestampInSeconds = Math.floor(Date.now() / 1000);
     const deadline = BigInt(timestampInSeconds) + BigInt(PERMIT_EXPIRY);
     const amount = serializeAmount(data.deposit.amount, USDC_DECIMAL);
+
+    const nonce = await readContract(config, {
+      abi: usdcAbi,
+      address: USDC,
+      functionName: "nonces",
+      args: [address!],
+    });
 
     const signature = await signTypedData(config, {
       domain: {

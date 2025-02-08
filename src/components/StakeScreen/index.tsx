@@ -2,7 +2,11 @@ import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { baseSepolia } from "wagmi/chains";
 import { useAccount, useReadContract } from "wagmi";
-import { waitForTransactionReceipt, signTypedData } from "@wagmi/core";
+import {
+  waitForTransactionReceipt,
+  signTypedData,
+  readContract,
+} from "@wagmi/core";
 import { ToastContainer, toast } from "react-toastify";
 
 import {
@@ -35,17 +39,18 @@ export default function StakeScreen({ isOpen, onClose }: StakeScreenProps) {
   const { control, handleSubmit } = useForm<DepositFormData>();
   const [inputValue, setinputValue] = useState(0);
   const { address } = useAccount();
-  const { data: nonce } = useReadContract({
-    abi: usdcAbi,
-    address: USDC,
-    functionName: "nonces",
-    args: [address!],
-  });
 
   async function onSubmit(data: DepositFormData) {
     const timestampInSeconds = Math.floor(Date.now() / 1000);
     const deadline = BigInt(timestampInSeconds) + BigInt(PERMIT_EXPIRY);
     const amount = serializeAmount(data.deposit.amount, USDC_DECIMAL);
+
+    const nonce = await readContract(config, {
+      abi: usdcAbi,
+      address: USDC,
+      functionName: "nonces",
+      args: [address!],
+    });
 
     const signature = await signTypedData(config, {
       domain: {
