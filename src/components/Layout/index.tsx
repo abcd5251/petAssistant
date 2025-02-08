@@ -9,8 +9,6 @@ export default function Layout() {
   const [isDeposited, setIsDeposited] = useState(false);
   const { address } = useAccount();
 
-  //   return <DefiScreen />;
-
   if (address && isDeposited) {
     return <DefiScreen />;
   } else {

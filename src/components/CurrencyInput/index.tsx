@@ -52,7 +52,7 @@ const CurrencyInput = forwardRef<HTMLInputElement, Props>(
                 />
               </span>
             </ListboxButton>
-            <ListboxOptions className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-50">
+            <ListboxOptions className="absolute mt-1 max-h-60 w-24 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-50">
               {currencies.map((currency) => (
                 <ListboxOption
                   key={currency.id}
