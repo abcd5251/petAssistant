@@ -94,6 +94,7 @@ async def get_news(data: QueryNews):
 @app.post("/defiInfo")
 async def process_simple_input(data: InputData):
     qclient = get_client()
+    print("user question", data.input_text)
     query_embedding = get_embedding(data.input_text)
     total_information = search_from_qdrant(qclient, query_embedding, k=8)
     need_info = ""
@@ -103,6 +104,8 @@ async def process_simple_input(data: InputData):
     qa_model_instance = OpenAIModel(system_prompt=qa_prompt, temperature=0)
     prompt = f"INFORMATION:{need_info}\nQUESTION:{data.input_text}\nOUTPUT:"
     output, input_token, output_token = qa_model_instance.generate_string_text(prompt)
+    
+    print("Answer", output)
     return {"result": output}
 
 

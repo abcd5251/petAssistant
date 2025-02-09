@@ -1,5 +1,5 @@
 # AI Backend
-API for the latest news and RAG knowledge base on DeFi strategies
+API for the latest news and a RAG DeFi knowledge base on DeFi strategies, allowing users to easily access blockchain information.
 
 ## Execution
 Put your API key into .env file
