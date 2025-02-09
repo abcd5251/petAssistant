@@ -57,6 +57,35 @@ validateEnvironment();
 // Configure a file to persist the agent's CDP MPC Wallet Data
 const WALLET_DATA_FILE = "wallet_data.txt";
 
+// Add new interface and API function above initializeAgent()
+interface ApiResponse {
+  success: boolean;
+  data?: any;
+  error?: string;
+}
+
+interface ExternalApiError extends Error {
+  message: string;
+}
+
+async function sendToExternalApi(content: string): Promise<ApiResponse> {
+  try {
+    const response = await fetch('YOUR_API_ENDPOINT', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ content })
+    });
+    const data = await response.json();
+    return { success: true, data };
+  } catch (error) {
+    const apiError: ExternalApiError = error as ExternalApiError;
+    return { success: false, error: apiError.message };
+  }
+}
+
+
 /**
  * Initialize the agent with CDP Agentkit
  *
@@ -90,6 +119,8 @@ async function initializeAgent() {
     };
 
     const walletProvider = await CdpWalletProvider.configureWithWallet(config);
+
+
 
     // Initialize AgentKit
     const agentkit = await AgentKit.from({
