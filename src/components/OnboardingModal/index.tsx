@@ -7,16 +7,29 @@ import {
   DialogPanel,
   DialogTitle,
 } from "@headlessui/react";
-import { useAccount, useWriteContract } from "wagmi";
+import { useAccount } from "wagmi";
+import { baseSepolia } from "wagmi/chains";
 import { useForm, Controller } from "react-hook-form";
-import { erc20Abi } from "viem";
-import { waitForTransactionReceipt } from "@wagmi/core";
+import {
+  waitForTransactionReceipt,
+  signTypedData,
+  readContract,
+} from "@wagmi/core";
+import { ToastContainer, toast } from "react-toastify";
 
 import CustomRainbowKitConnectButton from "../CustomConnectButton";
 import CurrencyInput from "../CurrencyInput";
-import { vaultAbi } from "../../abis/vault";
+import { usdcAbi } from "../../abis/usdc";
 import { config } from "../../config";
-import { USDC, VAULT, USDC_DECIMAL } from "../../helpers/constants";
+import {
+  USDC,
+  VAULT,
+  USDC_DECIMAL,
+  PERMIT_EXPIRY,
+  TYPES,
+} from "../../helpers/constants";
+import { serializeAmount } from "../../helpers/utils";
+import { deposit } from "../../helpers/mock-backend";
 
 interface DepositFormData {
   deposit: {
@@ -24,6 +37,8 @@ interface DepositFormData {
     amount: string;
   };
 }
+
+const delay = () => new Promise((resolve) => setTimeout(resolve, 1000));
 
 export default function OnboardingModal({
   openModal,
@@ -36,38 +51,52 @@ export default function OnboardingModal({
 }) {
   const { address } = useAccount();
   const { control, handleSubmit } = useForm<DepositFormData>();
-  const { writeContractAsync } = useWriteContract();
 
   async function onSubmit(data: DepositFormData) {
     console.log("Form submitted with values:", data);
 
-    const parsedAmount = BigInt(data.deposit.amount) * BigInt(USDC_DECIMAL);
-    {
-      const tx = await writeContractAsync({
-        abi: erc20Abi,
-        address: USDC,
-        functionName: "approve",
-        args: [VAULT, parsedAmount],
-      });
+    const timestampInSeconds = Math.floor(Date.now() / 1000);
+    const deadline = BigInt(timestampInSeconds) + BigInt(PERMIT_EXPIRY);
+    const amount = serializeAmount(data.deposit.amount, USDC_DECIMAL);
 
-      await waitForTransactionReceipt(config, {
+    const nonce = await readContract(config, {
+      abi: usdcAbi,
+      address: USDC,
+      functionName: "nonces",
+      args: [address!],
+    });
+
+    const signature = await signTypedData(config, {
+      domain: {
+        name: "USDC",
+        chainId: baseSepolia.id,
+        verifyingContract: USDC,
+        version: "2",
+      },
+      types: TYPES,
+      primaryType: "Permit",
+      message: {
+        owner: address!,
+        spender: VAULT,
+        value: amount,
+        nonce: nonce!,
+        deadline,
+      },
+    });
+
+    const tx = await deposit(address!, VAULT, amount, deadline, signature);
+    toast.promise(
+      waitForTransactionReceipt(config, {
         hash: tx,
-      });
-    }
+      }),
+      {
+        pending: "Transaction is pending...",
+        success: `Transaction confirmed ! \n Tx hash: ${tx}`,
+        error: "Transaction failed",
+      }
+    );
 
-    {
-      const tx = await writeContractAsync({
-        abi: vaultAbi,
-        address: VAULT,
-        functionName: "deposit",
-        args: [parsedAmount],
-      });
-
-      await waitForTransactionReceipt(config, {
-        hash: tx,
-      });
-    }
-
+    await delay();
     setIsDeposited(true);
     setOpenModal(false);
   }
@@ -209,6 +238,7 @@ export default function OnboardingModal({
           </DialogPanel>
         </div>
       </div>
+      <ToastContainer position="bottom-right" />
     </Dialog>
   );
 }
